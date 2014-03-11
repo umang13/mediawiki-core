@@ -904,10 +904,13 @@ class LocalFile extends File {
 		// Get a list of old thumbnails and URLs
 		$files = $this->getThumbnails( $archiveName );
 		$dir = array_shift( $files );
+		// Purge any custom thumbnail caches
+		// Add before the next line as purgeThumbList does not return files (see bug 62273)
+		wfRunHooks( 'LocalFilePurgeThumbnails', array( $this, false ) );
 		$this->purgeThumbList( $dir, $files );
 
-		// Purge any custom thumbnail caches
-		wfRunHooks( 'LocalFilePurgeThumbnails', array( $this, $archiveName ) );
+/*		// Purge any custom thumbnail caches
+		wfRunHooks( 'LocalFilePurgeThumbnails', array( $this, false ) ); */
 
 		// Purge the squid
 		if ( $wgUseSquid ) {
@@ -948,10 +951,13 @@ class LocalFile extends File {
 		}
 
 		$dir = array_shift( $files );
+		// Purge any custom thumbnail caches
+		// Add before the next line as purgeThumbList does not return files (see bug 62273)
+		wfRunHooks( 'LocalFilePurgeThumbnails', array( $this, false ) );
 		$this->purgeThumbList( $dir, $files );
 
-		// Purge any custom thumbnail caches
-		wfRunHooks( 'LocalFilePurgeThumbnails', array( $this, false ) );
+/*		// Purge any custom thumbnail caches
+		wfRunHooks( 'LocalFilePurgeThumbnails', array( $this, false ) ); */
 
 		// Purge the squid
 		if ( $wgUseSquid ) {
